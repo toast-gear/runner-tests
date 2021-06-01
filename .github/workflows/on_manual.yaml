@@ -11,10 +11,12 @@ jobs:
         image: summerwind/actions-runner:latest
       steps:
       - run: |
-          pip install meson
+          #pip install meson
+          echo hello
       - run: |
           set +e
           echo $HOME
           ls -al ~
           which meson
           ls -al ~/.local/bin  
+          ls -al $HOME
