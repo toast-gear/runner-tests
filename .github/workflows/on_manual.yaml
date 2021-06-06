@@ -5,18 +5,9 @@ on:
 
 jobs:
     my_job:
-      concurrency: group-feature
-      runs-on: ubuntu-latest
+      runs-on: self-hosted
       container: 
         image: summerwind/actions-runner:latest
       steps:
       - run: |
-          #pip install meson
-          echo hello
-      - run: |
-          set +e
-          echo $HOME
-          ls -al ~
-          which meson
-          ls -al ~/.local/bin  
-          ls -al $HOME
+          sleep 1h
