@@ -1,0 +1,54 @@
+name: Scaling Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      NumberOfJobsToCreate:
+        description: 'Number of Jobs to Create'     
+        required: true
+        default: "10"
+
+jobs:
+  build-matrix:
+    runs-on: default
+    outputs:
+      matrix: ${{ steps.matrix-json.outputs.matrix }}
+    steps:
+      - name: Build Matrix
+        id: matrix-json
+        run: |
+          # Setup
+          count_array=()
+          gandalf=50
+
+          # Process
+          for((i=1;i<=${{ github.event.inputs.NumberOfJobsToCreate }};i++)); do
+              if [[ $i -le $gandalf ]]; then
+                count_array=("${count_array[@]}" "${i}")
+                continue
+              fi
+              break
+          done
+
+          # Output
+          echo "Gandalf var : $gandalf"
+          echo "Array length : ${#count_array[@]}"
+          echo "Array values : ${count_array[*]}"
+          echo "Constructing array into GitHub matrix"
+          # Remove trailing comma without leaving a trailing space
+          joined=$(printf "\"%s\"," "${count_array[@]}" | sed 's/\(.*\),/\1/')
+          echo "Matrix set to :"
+          echo "[$joined]"
+          echo "::set-output name=matrix::[$joined]"
+
+  scaling-jobs1:
+    needs: build-matrix
+    runs-on: default
+    strategy:
+        matrix:
+          job-number: ${{ fromJson(needs.build-matrix.outputs.matrix) }}
+    name: Scale Runner ${{ matrix.job-number }}
+    steps:
+      - name: Run Sleep
+        run: |
+          sleep 1s
