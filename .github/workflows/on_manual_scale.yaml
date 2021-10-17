@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-matrix:
-    runs-on: default
+    runs-on: self-hosted
     outputs:
       matrix: ${{ steps.matrix-json.outputs.matrix }}
     steps:
