@@ -6,28 +6,30 @@ on:
       NumberOfJobsToCreate:
         description: 'Number of Jobs to Create'     
         required: true
-        default: 10
+        default: "10"
 
 jobs:
   build-matrix:
-    runs-on: ubuntu-latest
+    runs-on: default
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      matrix: ${{ steps.matrix-json.outputs.matrix }}
     steps:
       - name: Build Matrix
-        id: matrix
+        id: matrix-json
         run: |
           # Setup
           count_array=()
-          gandalf=20
+          gandalf=100
+
           # Process
-          for((i=1;i<=${{ github.event.inputs.NumberOfJobsToCreate }}";i++)); do
+          for((i=1;i<=${{ github.event.inputs.NumberOfJobsToCreate }};i++)); do
               if [[ $i -le $gandalf ]]; then
                 count_array=("${count_array[@]}" "${i}")
                 continue
               fi
               break
           done
+
           # Output
           echo "Gandalf var : $gandalf"
           echo "Array length : ${#count_array[@]}"
@@ -38,13 +40,15 @@ jobs:
           echo "Matrix set to :"
           echo "[$joined]"
           echo "::set-output name=matrix::[$joined]"
-        
-  scaling-jobs:
+
+  scaling-jobs1:
     needs: build-matrix
-    runs-on: ubuntu-latest
+    runs-on: default
     strategy:
-        matrix: ${{ fromJson(needs.build-matrix.outputs.matrix) }}
+        matrix:
+          job-number: ${{ fromJson(needs.build-matrix.outputs.matrix) }}
+    name: Scale Runner ${{ matrix.job-number }}
     steps:
       - name: Run Sleep
         run: |
-          sleep 5m
+          sleep 1s
