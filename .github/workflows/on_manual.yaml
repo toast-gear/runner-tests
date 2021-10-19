@@ -1,11 +1,12 @@
 name: On Manual 1 Public Runner
 
 on:
-  workflow_dispatch:
+  pull_request:
+  push:
 
 jobs:
     my_job:
       runs-on: self-hosted
       steps:
       - run: |
-          sleep 1h
+          echo $GITHUB_REF
