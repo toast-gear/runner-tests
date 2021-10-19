@@ -6,7 +6,7 @@ on:
 
 jobs:
     my_job:
-      runs-on: self-hosted
+      runs-on: ubuntu-latest
       steps:
       - run: |
           echo $GITHUB_REF
