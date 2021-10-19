@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-matrix:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix-json.outputs.matrix }}
     steps:
@@ -20,7 +20,7 @@ jobs:
           # Setup
           count_array=()
           gandalf=50
-
+          
           # Process
           for((i=1;i<=${{ github.event.inputs.NumberOfJobsToCreate }};i++)); do
               if [[ $i -le $gandalf ]]; then
@@ -43,7 +43,7 @@ jobs:
 
   scaling-jobs1:
     needs: build-matrix
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
         matrix:
           job-number: ${{ fromJson(needs.build-matrix.outputs.matrix) }}
