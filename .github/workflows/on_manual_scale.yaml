@@ -43,7 +43,7 @@ jobs:
 
   scaling-jobs1:
     needs: build-matrix
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     strategy:
         matrix:
           job-number: ${{ fromJson(needs.build-matrix.outputs.matrix) }}
