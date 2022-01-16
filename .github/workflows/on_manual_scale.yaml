@@ -4,9 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       NumberOfJobsToCreate:
-        description: 'Number of Jobs to Create'     
+        description: 'Number of Jobs to Create'
         required: true
         default: "10"
+      TimeToSleep:
+        description: 'The amount of time to sleep in s or m'
+        required: true
+        default: "1m"
 
 jobs:
   build-matrix:
@@ -51,4 +55,4 @@ jobs:
     steps:
       - name: Run Sleep
         run: |
-          sleep 20m
+          sleep "${{ github.event.inputs.TimeToSleep }}"
