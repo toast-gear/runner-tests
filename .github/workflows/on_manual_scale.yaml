@@ -51,4 +51,4 @@ jobs:
     steps:
       - name: Run Sleep
         run: |
-          sleep 1s
+          sleep 20m
