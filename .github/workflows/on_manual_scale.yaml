@@ -46,7 +46,7 @@ jobs:
           echo "::set-output name=matrix::[$joined]"
 
   scaling-jobs1:
-    needs: build-matrix
+    needs: default
     runs-on: self-hosted
     strategy:
         matrix:
