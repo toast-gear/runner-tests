@@ -46,8 +46,8 @@ jobs:
           echo "::set-output name=matrix::[$joined]"
 
   scaling-jobs1:
-    needs: default
-    runs-on: self-hosted
+    needs: build-matrix
+    runs-on: default
     strategy:
         matrix:
           job-number: ${{ fromJson(needs.build-matrix.outputs.matrix) }}
