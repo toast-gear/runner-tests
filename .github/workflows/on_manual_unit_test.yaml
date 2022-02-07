@@ -1,0 +1,24 @@
+name: Unit Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      TestDocker:
+        description: 'Run tests for docker'
+        required: true
+        default: "true"
+
+jobs:
+  docker-ping:
+    runs-on: self-hosted
+    steps:
+      - name: Test docker is up
+        run: |
+          docker ps
+  docker-container:
+    runs-on: self-hosted
+    container: amazon/aws-cli
+    steps:
+      - name: Test jobs can be ran in a container
+        run: |
+          echo "I'm in!"
